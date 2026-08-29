@@ -2,6 +2,7 @@ import type { WarpClient } from '../infrastructure/warp/warp-client.js';
 import { generateX25519KeyPair } from '../infrastructure/crypto/x25519.js';
 import { encodeBase64 } from '../shared/base64.js';
 import { DEFAULT_DNS, DEFAULT_MTU } from '../shared/constants.js';
+import { AMNEZIA_OBFUSCATION } from '../domain/obfuscation.js';
 import { buildWireGuardConfig } from '../domain/wireguard-config.js';
 import { registerWarp } from './register-warp.js';
 export async function generateConfig(
@@ -24,7 +25,8 @@ export async function generateConfig(
     ipv6: warp.ipv6,
     dns: warp.dns.length ? warp.dns : DEFAULT_DNS,
     mtu: warp.mtu ?? DEFAULT_MTU,
-    endpoint: warp.endpoint,
+    endpoint: '162.159.192.1:500',
+    obfuscation: AMNEZIA_OBFUSCATION,
   });
   return { config, privateKey: encodeBase64(pair.privateKey), endpoint: warp.endpoint };
 }

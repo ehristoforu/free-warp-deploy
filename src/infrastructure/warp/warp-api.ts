@@ -51,7 +51,7 @@ export class CloudflareWarpClient implements WarpClient {
       peerPublicKey: first.public_key,
       ipv4: addresses.v4,
       ipv6: addresses.v6,
-      dns: [],
+      dns: ['1.1.1.1', '2606:4700:4700::1111', '1.0.0.1', '2606:4700:4700::1001'],
       endpoint: endpoint.host,
       mtu: 1280,
     };

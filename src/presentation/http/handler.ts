@@ -32,7 +32,11 @@ export async function handleWarp(request: Request): Promise<Response> {
       success: true,
       config: result.config,
       filename: 'warp.conf',
-      location: { requested: loadConfig().preferredLocation, resolved: result.endpoint },
+      location: {
+        requested:
+          typeof body.location === 'string' ? body.location : loadConfig().preferredLocation,
+        resolved: result.endpoint,
+      },
     });
   } catch (error) {
     return errorResponse(error);
