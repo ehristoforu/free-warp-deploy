@@ -28,6 +28,29 @@ export class CloudflareWarpClient implements WarpClient {
       clearTimeout(timer);
     }
   }
+  private parseConfiguration(body: Record<string, unknown>): WarpConfiguration {
+    const config = body.config as Record<string, unknown> | undefined;
+    const interfaceData = config?.interface as Record<string, unknown> | undefined;
+    const peer = config?.peers as Array<Record<string, unknown>> | undefined;
+    const first = peer?.[0];
+    const endpoint = first?.endpoint as Record<string, unknown> | undefined;
+    const addresses = interfaceData?.addresses as Record<string, unknown> | undefined;
+    if (
+      typeof first?.public_key !== 'string' ||
+      typeof addresses?.v4 !== 'string' ||
+      typeof addresses.v6 !== 'string' ||
+      typeof endpoint?.host !== 'string'
+    )
+      throw new InvalidWarpResponseError();
+    return {
+      peerPublicKey: first.public_key,
+      ipv4: addresses.v4,
+      ipv6: addresses.v6,
+      dns: [],
+      endpoint: endpoint.host,
+      mtu: 1280,
+    };
+  }
   async register(publicKey: string): Promise<WarpRegistration> {
     try {
       const body = await this.request('/reg', {
@@ -38,11 +61,12 @@ export class CloudflareWarpClient implements WarpClient {
           fcm_token: '',
           tos: new Date().toISOString(),
           type: 'Android',
+          model: 'free-warp-deploy',
           locale: 'en_US',
         }),
       });
       if (typeof body.id !== 'string' || typeof body.token !== 'string') throw new Error();
-      return { id: body.id, token: body.token };
+      return { id: body.id, token: body.token, configuration: this.parseConfiguration(body) };
     } catch {
       throw new WarpRegistrationError();
     }

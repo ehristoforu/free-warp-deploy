@@ -7,7 +7,11 @@ export type WireGuardConfigInput = {
   mtu: number | undefined;
   endpoint: string;
 };
-export type WarpRegistration = { id: string; token: string };
+export type WarpRegistration = {
+  id: string;
+  token: string;
+  configuration: WarpConfiguration;
+};
 export type WarpConfiguration = {
   peerPublicKey: string;
   ipv4: string;
