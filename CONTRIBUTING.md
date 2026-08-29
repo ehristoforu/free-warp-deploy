@@ -1,10 +1,10 @@
-# Contributing
+# Участие в разработке
 
-1. Fork the repository and create a focused branch.
-2. Run `npm ci` and make the smallest compatible change.
-3. Run `npm run check:all` before opening a pull request.
-4. Describe behavior, tests, and deployment impact in the pull request.
+1. Создайте fork репозитория и отдельную ветку для конкретного изменения.
+2. Выполните `npm ci` и внесите минимальное совместимое изменение.
+3. Перед созданием pull request выполните `npm run check:all`.
+4. Опишите в pull request изменённое поведение, тесты и влияние на деплой.
 
-Use strict TypeScript, keep platform code in adapters, avoid new dependencies unless necessary, and never add secrets or real credentials. Pull requests must pass required CI and architecture checks. Commit messages should use an imperative style such as `feat: add profile metadata`.
+Используйте строгий TypeScript, размещайте платформенный код в адаптерах и не добавляйте новые зависимости без необходимости. Никогда не добавляйте секреты или реальные учётные данные. Pull request должен пройти обязательные проверки CI и архитектуры. Сообщения коммитов должны быть сформулированы в повелительном стиле, например `feat: add profile metadata`.
 
-Keep user-facing wording neutral and accurate. Do not make guarantees about geographic endpoints, availability, anonymity, or third-party client support.
+Пользовательские формулировки должны оставаться нейтральными и точными. Не делайте гарантий относительно географических endpoint, доступности, анонимности или поддержки сторонних клиентов.

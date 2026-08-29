@@ -1,3 +1,3 @@
-# Code of Conduct
+# Кодекс поведения
 
-Participants are expected to be respectful, constructive, and inclusive. Harassment, discrimination, personal attacks, and disclosure of private information are not acceptable. Maintainers may remove contributions or restrict participation when necessary to protect the community.
+От участников ожидаются уважительное, конструктивное и инклюзивное поведение. Домогательства, дискриминация, личные нападки и разглашение частной информации недопустимы. Для защиты сообщества сопровождающие проекта могут удалять материалы или ограничивать участие в проекте, если это необходимо.
