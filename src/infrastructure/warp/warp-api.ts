@@ -18,7 +18,12 @@ export class CloudflareWarpClient implements WarpClient {
       const response = await this.fetcher(`${this.baseUrl}${path}`, {
         ...init,
         signal: controller.signal,
-        headers: { 'content-type': 'application/json', ...(init.headers ?? {}) },
+        headers: {
+          'content-type': 'application/json',
+          accept: 'application/json',
+          'user-agent': 'okhttp/3.12.1',
+          ...(init.headers ?? {}),
+        },
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const body: unknown = await response.json();
@@ -60,46 +65,28 @@ export class CloudflareWarpClient implements WarpClient {
           install_id: '',
           fcm_token: '',
           tos: new Date().toISOString(),
-          type: 'Android',
+          type: 'ios',
           model: 'free-warp-deploy',
           locale: 'en_US',
         }),
       });
-      if (typeof body.id !== 'string' || typeof body.token !== 'string') throw new Error();
-      return { id: body.id, token: body.token, configuration: this.parseConfiguration(body) };
+      const result = body.result as Record<string, unknown> | undefined;
+      if (typeof result?.id !== 'string' || typeof result.token !== 'string') throw new Error();
+      return { id: result.id, token: result.token };
     } catch {
       throw new WarpRegistrationError();
     }
   }
   async enableWarp(id: string, token: string): Promise<WarpConfiguration> {
     try {
-      const body = await this.request(`/reg/${encodeURIComponent(id)}/account`, {
-        method: 'PUT',
+      const body = await this.request(`/reg/${encodeURIComponent(id)}`, {
+        method: 'PATCH',
         headers: { Authorization: `Bearer ${token}` },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ warp_enabled: true }),
       });
-      const config = body.config as Record<string, unknown> | undefined;
-      const interfaceData = config?.interface as Record<string, unknown> | undefined;
-      const peer = config?.peers as Array<Record<string, unknown>> | undefined;
-      const first = peer?.[0];
-      if (
-        typeof first?.public_key !== 'string' ||
-        typeof interfaceData?.addresses !== 'object' ||
-        typeof first.endpoint !== 'string'
-      )
-        throw new Error();
-      const addresses = interfaceData.addresses as Record<string, unknown>;
-      if (typeof addresses.v4 !== 'string') throw new Error();
-      return {
-        peerPublicKey: first.public_key,
-        ipv4: addresses.v4,
-        ipv6: typeof addresses.v6 === 'string' ? addresses.v6 : undefined,
-        dns: Array.isArray(interfaceData.dns)
-          ? interfaceData.dns.filter((x): x is string => typeof x === 'string')
-          : [],
-        endpoint: first.endpoint,
-        mtu: typeof interfaceData.mtu === 'number' ? interfaceData.mtu : undefined,
-      };
+      const result = body.result as Record<string, unknown> | undefined;
+      if (!result) throw new Error();
+      return this.parseConfiguration(result);
     } catch {
       throw new WarpEnableError();
     }

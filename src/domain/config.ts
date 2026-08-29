@@ -10,7 +10,6 @@ export type WireGuardConfigInput = {
 export type WarpRegistration = {
   id: string;
   token: string;
-  configuration: WarpConfiguration;
 };
 export type WarpConfiguration = {
   peerPublicKey: string;

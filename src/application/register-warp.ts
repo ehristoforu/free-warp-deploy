@@ -5,5 +5,5 @@ export async function registerWarp(
   publicKey: string,
 ): Promise<WarpConfiguration> {
   const registration = await client.register(publicKey);
-  return registration.configuration;
+  return client.enableWarp(registration.id, registration.token);
 }
