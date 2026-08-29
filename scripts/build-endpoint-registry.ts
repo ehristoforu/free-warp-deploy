@@ -22,11 +22,11 @@ if (process.argv.includes('--check')) {
     throw new Error('Generated endpoint registry is missing');
   }
   const currentData = current.replace(
-    /"generatedAt": ".*?"|"verifiedAt": ".*?"|"expiresAt": ".*?"/g,
+    /['"]generatedAt['"]:\s*['"].*?['"]|['"]verifiedAt['"]:\s*['"].*?['"]|['"]expiresAt['"]:\s*['"].*?['"]/g,
     'timestamp: dynamic',
   );
   const expectedData = source.replace(
-    /"generatedAt": ".*?"|"verifiedAt": ".*?"|"expiresAt": ".*?"/g,
+    /['"]generatedAt['"]:\s*['"].*?['"]|['"]verifiedAt['"]:\s*['"].*?['"]|['"]expiresAt['"]:\s*['"].*?['"]/g,
     'timestamp: dynamic',
   );
   if (currentData !== expectedData) throw new Error('Generated endpoint registry is out of date');

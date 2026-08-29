@@ -11,7 +11,7 @@ export function buildRegistry(report: string, now = new Date()): EndpointRegistr
     generatedAt,
     verifiedAt: generatedAt,
     expiresAt: expires.toISOString(),
-    sourceReportHash: `sha256:${createHash('sha256').update(report).digest('hex')}`,
+    sourceReportHash: `sha256:${createHash('sha256').update(report.replace(/\r\n?/g, '\n')).digest('hex')}`,
     countries: groupEndpoints(parseWarpscoutReport(report)),
   };
 }
