@@ -1,0 +1,33 @@
+{
+  "name": "free-warp-deploy",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --experimental-strip-types scripts/dev-server.ts",
+    "build": "tsc --noEmit && node scripts/build.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "check:architecture": "node --experimental-strip-types scripts/check-architecture.ts",
+    "check:public-text": "node --experimental-strip-types scripts/check-public-text.ts",
+    "check:secrets": "node --experimental-strip-types scripts/check-sensitive-files.ts",
+    "check:dependencies": "node --experimental-strip-types scripts/check-dependencies.ts",
+    "check:all": "npm run typecheck && npm run lint && npm run format:check && npm run test && npm run build && npm run check:architecture && npm run check:public-text && npm run check:secrets && npm run check:dependencies"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.68.0",
+    "@typescript-eslint/parser": "^8.68.0",
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

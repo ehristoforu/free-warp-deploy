@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Generate a WARP WireGuard configuration for a secure internet connection."
+    />
+    <title>Free WARP Deploy</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="top">
+      <a class="brand" href="/">Free WARP Deploy</a
+      ><a href="https://github.com/ehristoforu/free-warp-deploy" rel="noreferrer">GitHub</a>
+    </header>
+    <main>
+      <section class="hero">
+        <p class="eyebrow">OPEN SOURCE NETWORK TOOL</p>
+        <h1>Build a protected connection profile.</h1>
+        <p class="lead">
+          Generate a WARP WireGuard configuration for a secure internet connection, without managing
+          a server.
+        </p>
+        <div class="notice">
+          Vercel and Netlify only generate the configuration. User traffic does not pass through
+          those platforms.
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="generator-title">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">CONFIGURATION BUILDER</p>
+            <h2 id="generator-title">Generate a network profile</h2>
+          </div>
+          <button id="theme" class="icon-button" type="button" aria-label="Toggle color theme">
+            ◐
+          </button>
+        </div>
+        <label for="location">Preferred location</label
+        ><select id="location">
+          <option value="auto">Auto - recommended</option>
+          <option value="de">Germany</option>
+          <option value="nl">Netherlands</option>
+          <option value="pl">Poland</option>
+          <option value="fi">Finland</option>
+          <option value="gb">United Kingdom</option>
+          <option value="fr">France</option>
+          <option value="us">United States</option>
+          <option value="ca">Canada</option>
+          <option value="jp">Japan</option>
+          <option value="sg">Singapore</option>
+          <option value="au">Australia</option>
+        </select>
+        <p class="hint">
+          A location preference is best-effort. The actual WARP endpoint depends on Cloudflare
+          availability and routing.
+        </p>
+        <button id="generate" class="primary" type="button">Generate configuration</button>
+        <p id="status" class="status" role="status"></p>
+        <div id="result" hidden>
+          <div class="result-head">
+            <h3>Configuration generated</h3>
+            <span class="pill">Ready</span>
+          </div>
+          <dl id="metadata"></dl>
+          <div class="actions">
+            <button id="copy" type="button">Copy config</button
+            ><button id="download" type="button">Download .conf</button
+            ><button id="show" type="button">Show configuration</button
+            ><button id="regenerate" type="button">Generate new configuration</button>
+          </div>
+          <pre id="preview" hidden></pre>
+        </div>
+      </section>
+      <section class="grid">
+        <article>
+          <h2>Using with Amnezia</h2>
+          <ol>
+            <li>Open Amnezia.</li>
+            <li>Choose the WireGuard import option.</li>
+            <li>Select the downloaded <code>warp.conf</code> file.</li>
+            <li>Review the profile and connect.</li>
+          </ol>
+        </article>
+        <article>
+          <h2>Privacy by design</h2>
+          <p>
+            Keys and generated profiles are ephemeral. This project has no database, cookies,
+            analytics, or third-party tracking by default.
+          </p>
+        </article>
+      </section>
+    </main>
+    <footer>Free WARP Deploy <span>Open Source · GPL-3.0</span></footer>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

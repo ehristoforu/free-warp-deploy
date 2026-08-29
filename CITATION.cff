@@ -1,0 +1,7 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: ehristoforu
+title: "free-warp-deploy"
+date-released: 2026-08-29
+url: "https://github.com/ehristoforu/free-warp-deploy"
