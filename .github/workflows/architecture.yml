@@ -8,6 +8,8 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: npm }
       - run: npm ci
+      - run: npm run generate:endpoints:check
+      - run: npm run check:endpoints
       - run: npm run check:architecture
       - run: npm run check:public-text
       - run: npm run check:secrets

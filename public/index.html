@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Generate a WARP WireGuard configuration for a secure internet connection."
+      content="Генерация WARP-конфигурации WireGuard через Vercel и Netlify."
     />
     <title>Free WARP Deploy</title>
     <link rel="stylesheet" href="/styles.css" />
@@ -13,82 +13,90 @@
   <body>
     <header class="top">
       <a class="brand" href="/">Free WARP Deploy</a
-      ><a href="https://github.com/ehristoforu/free-warp-deploy" rel="noreferrer">GitHub</a>
+      ><a href="https://github.com/ehristoforu/free-warp-deploy" rel="noreferrer">Исходный код</a>
     </header>
     <main>
       <section class="hero">
         <p class="eyebrow">OPEN SOURCE NETWORK TOOL</p>
-        <h1>Build a protected connection profile.</h1>
+        <h1>Соберите сетевой профиль.</h1>
         <p class="lead">
-          Generate a WARP WireGuard configuration for a secure internet connection, without managing
-          a server.
+          Генерация WARP-конфигурации WireGuard для защищённого подключения без собственного
+          сервера.
         </p>
         <div class="notice">
-          Vercel and Netlify only generate the configuration. User traffic does not pass through
-          those platforms.
+          Vercel и Netlify только создают конфигурацию. Пользовательский трафик через эти платформы
+          не проходит.
         </div>
       </section>
       <section class="panel" aria-labelledby="generator-title">
         <div class="panel-head">
           <div>
-            <p class="eyebrow">CONFIGURATION BUILDER</p>
-            <h2 id="generator-title">Generate a network profile</h2>
+            <p class="eyebrow">КОНСТРУКТОР</p>
+            <h2 id="generator-title">Новая конфигурация</h2>
           </div>
-          <button id="theme" class="icon-button" type="button" aria-label="Toggle color theme">
-            ◐
-          </button>
+          <button id="theme" class="icon-button" type="button" aria-label="Сменить тему">◐</button>
         </div>
-        <label for="location">Best-effort location preference</label
+        <label for="endpoint-mode">Режим выбора endpoint</label
+        ><select id="endpoint-mode">
+          <option value="auto">Авто - рекомендуется</option>
+          <option value="node">По ноде Cloudflare</option>
+        </select>
+        <label id="node-label" for="location" hidden>Нода Cloudflare</label
         ><select id="location">
-          <option value="auto">Auto - recommended</option>
-          <option value="de">Germany</option>
-          <option value="nl">Netherlands</option>
-          <option value="pl">Poland</option>
-          <option value="fi">Finland</option>
-          <option value="gb">United Kingdom</option>
-          <option value="fr">France</option>
-          <option value="us">United States</option>
-          <option value="ca">Canada</option>
-          <option value="jp">Japan</option>
-          <option value="sg">Singapore</option>
-          <option value="au">Australia</option>
+          <option value="auto">Авто</option>
         </select>
         <p class="hint">
-          This preference does not select a country or guarantee a geographic endpoint. Cloudflare
-          controls the actual WARP routing.
+          Страна определяется по ноде Cloudflare в отчёте WARPSCOUT. Это best-effort предпочтение и
+          не гарантирует страну внешнего IP.
         </p>
-        <button id="generate" class="primary" type="button">Generate configuration</button>
+        <label for="protocol">Протокол</label
+        ><select id="protocol">
+          <option value="wg">WireGuard</option>
+        </select>
+        <label for="dns">DNS-сервер</label
+        ><select id="dns">
+          <option value="cloudflare">Cloudflare</option>
+          <option value="google">Google</option>
+          <option value="yandex">Яндекс</option>
+          <option value="yandex-safe">Яндекс Безопасный</option>
+          <option value="adguard">AdGuard</option>
+          <option value="quad9">Quad9</option>
+        </select>
+        <label class="check"
+          ><input id="ipv6" type="checkbox" checked /> Использовать IPv6-адреса</label
+        >
+        <button id="generate" class="primary" type="button">Сгенерировать конфигурацию</button>
         <p id="status" class="status" role="status"></p>
         <div id="result" hidden>
           <div class="result-head">
-            <h3>Configuration generated</h3>
-            <span class="pill">Ready</span>
+            <h3>Конфигурация создана</h3>
+            <span class="pill">Готово</span>
           </div>
           <dl id="metadata"></dl>
           <div class="actions">
-            <button id="copy" type="button">Copy config</button
-            ><button id="download" type="button">Download .conf</button
-            ><button id="show" type="button">Show configuration</button
-            ><button id="regenerate" type="button">Generate new configuration</button>
+            <button id="copy" type="button">Копировать</button
+            ><button id="download" type="button">Скачать .conf</button
+            ><button id="show" type="button">Показать конфигурацию</button
+            ><button id="regenerate" type="button">Создать новую</button>
           </div>
           <pre id="preview" hidden></pre>
         </div>
       </section>
       <section class="grid">
         <article>
-          <h2>Using with Amnezia</h2>
+          <h2>Использование с Amnezia</h2>
           <ol>
-            <li>Open Amnezia.</li>
-            <li>Choose the WireGuard import option.</li>
-            <li>Select the downloaded <code>warp.conf</code> file.</li>
-            <li>Review the profile and connect.</li>
+            <li>Откройте Amnezia.</li>
+            <li>Выберите импорт WireGuard-конфигурации.</li>
+            <li>Укажите скачанный файл <code>warp.conf</code>.</li>
+            <li>Проверьте профиль и подключитесь.</li>
           </ol>
         </article>
         <article>
-          <h2>Privacy by design</h2>
+          <h2>Конфиденциальность</h2>
           <p>
-            Keys and generated profiles are ephemeral. This project has no database, cookies,
-            analytics, or third-party tracking by default.
+            Ключи и профили временные. Проект не использует базу данных, cookies, аналитику или
+            стороннее отслеживание.
           </p>
         </article>
       </section>

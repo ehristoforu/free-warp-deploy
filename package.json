@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch scripts/dev-server.ts",
-    "build": "tsc --noEmit && node scripts/build.js",
+    "build": "npm run generate:endpoints && tsc --noEmit && node scripts/build.js",
+    "parse:warpscout": "tsx scripts/build-endpoint-registry.ts",
+    "generate:endpoints": "tsx scripts/build-endpoint-registry.ts",
+    "generate:endpoints:check": "tsx scripts/build-endpoint-registry.ts --check",
+    "check:endpoints": "tsx scripts/check-endpoint-registry.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
@@ -16,7 +20,7 @@
     "check:public-text": "tsx scripts/check-public-text.ts",
     "check:secrets": "tsx scripts/check-sensitive-files.ts",
     "check:dependencies": "tsx scripts/check-dependencies.ts",
-    "check:all": "npm run typecheck && npm run lint && npm run format:check && npm run test && npm run build && npm run check:architecture && npm run check:public-text && npm run check:secrets && npm run check:dependencies"
+    "check:all": "npm run typecheck && npm run lint && npm run format:check && npm run test && npm run check:endpoints && npm run build && npm run check:architecture && npm run check:public-text && npm run check:secrets && npm run check:dependencies"
   },
   "engines": {
     "node": ">=20"
