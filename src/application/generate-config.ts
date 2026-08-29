@@ -8,7 +8,7 @@ import { registerWarp } from './register-warp.js';
 export async function generateConfig(
   client: WarpClient,
   supplied?: Uint8Array,
-): Promise<{ config: string; privateKey: string; endpoint: string }> {
+): Promise<{ config: string; privateKey: string; endpoint: string; routing: 'automatic' }> {
   const pair = supplied
     ? {
         privateKey: supplied,
@@ -28,5 +28,10 @@ export async function generateConfig(
     endpoint: '162.159.192.1:500',
     obfuscation: AMNEZIA_OBFUSCATION,
   });
-  return { config, privateKey: encodeBase64(pair.privateKey), endpoint: warp.endpoint };
+  return {
+    config,
+    privateKey: encodeBase64(pair.privateKey),
+    endpoint: warp.endpoint,
+    routing: 'automatic',
+  };
 }

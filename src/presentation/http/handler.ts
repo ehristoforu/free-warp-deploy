@@ -37,6 +37,8 @@ export async function handleWarp(request: Request): Promise<Response> {
           typeof body.location === 'string' ? body.location : loadConfig().preferredLocation,
         resolved: result.endpoint,
       },
+      routing: result.routing,
+      observed: null,
     });
   } catch (error) {
     return errorResponse(error);

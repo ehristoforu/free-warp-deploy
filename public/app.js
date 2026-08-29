@@ -20,7 +20,7 @@ $('generate').addEventListener('click', async () => {
     if (!data.success) throw new Error(data.error?.message ?? 'Unable to generate configuration.');
     latest = data;
     $('metadata').innerHTML =
-      `<div><dt>Endpoint</dt><dd>${data.location.resolved}</dd></div><div><dt>Preference</dt><dd>${data.location.requested}</dd></div>`;
+      `<div><dt>Requested preference</dt><dd>${data.location.requested}</dd></div><div><dt>Routing</dt><dd>Automatic Cloudflare routing</dd></div><div><dt>Endpoint</dt><dd>${data.location.resolved}</dd></div><div><dt>Observed location</dt><dd>Not checked</dd></div>`;
     $('result').hidden = false;
     $('preview').hidden = true;
     setStatus('');
